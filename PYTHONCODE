@@ -1,0 +1,38 @@
+class Motor: 
+  def init (self, ID, starting_angle, max_angle, min_angle, out_pin, reverse_pin): 
+    """
+    makes a new motor object 
+    :param name: string indicating the Joint where the motor is positioned 
+    :param starting_angle: float refering to the current angle the motor is 
+            rotated based on the position of the easel on shutdown 
+    :param max_angle: maximum angle the motor can spin before the easel starts to collide 
+    :param min_angle: minimum angle the motor can spin before the easel starts to collide 
+    """
+    import RPI.GPIO as GPIO 
+    GPIO.setwarnings(False) 
+    GPIO.setmode(GPIO.BCM) 
+    self.ID = ID 
+    self.angle = starting_angle 
+    self.max_angle = max_angle 
+    self.min_angle = min_angle 
+    self.out_pin = out_pin 
+    self.reverse_pin = reverse_pin 
+
+    self.motor_speed = 10 
+    GPIO.setup(self.out_pin, GPIO.OUT) 
+    GPIO.setup(self.reverse_pin, GPIO.OUT) 
+def rotate(self, rotation_angle): 
+    import RPi.GPIO as GPIO 
+    import time 
+    """
+    :param rotation_angle: float telling the motor what its final position should be. 
+    """
+    if self.min_angle > rotation_angle: 
+        rotation_angle = self.min_angle 
+    elif self.max_angle < rotation_angle: 
+        rotation_angle = self.max_angle 
+
+    rotation_time = (rotation_angle - self.angle) / self.motor_speed 
+    if rotation_time < 0: 
+       rotation_time *= -1 
+       GPIO.output(self.reverse_pin, True)
